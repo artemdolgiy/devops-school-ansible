@@ -1,0 +1,25 @@
+---
+- name: Modify grub
+  hosts: nodes
+  tasks:
+    - name: Add net.ifnames=0
+      lineinfile:
+        state: present
+        dest: /etc/default/grub
+        backrefs: yes
+        regexp: '^(GRUB_CMDLINE_LINUX=(?!.* net\.ifnames)\"[^\"]+)(\".*)'
+        line: '\1 net.ifnames=0\2'
+      become: true
+    
+    - name: Add biosdevname=0
+      lineinfile:
+        state: present
+        dest: /etc/default/grub
+        backrefs: yes
+        regexp: '^(GRUB_CMDLINE_LINUX=(?!.* biosdevname)\"[^\"]+)(\".*)'
+        line: '\1 biosdevname=0\2'
+      become: true
+    
+    - name: Update grub config
+      command: grub2-mkconfig
+...

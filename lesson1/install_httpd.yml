@@ -1,0 +1,34 @@
+---
+- name: Install Web-server
+  hosts: nodes
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: latest
+      become: true
+    
+    - name: Start service httpd, if not started
+      service:
+        name: httpd
+        state: started
+      become: true
+
+    - name: Create index.html
+      copy:
+        content: 'Welcome to my web server'
+        dest: /var/www/html/index.html
+        mode: '0644'
+      become: true
+    
+    - name: firewalld configuration
+      firewalld:
+        zone: public
+        service: "{{ item }}"
+        permanent: yes
+        immediate: yes
+        state: enabled
+      loop:
+        - https
+        - http
+...

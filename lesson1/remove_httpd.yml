@@ -1,0 +1,27 @@
+---
+- name: Remove Web-server
+  hosts: nodes
+  tasks:
+    - name: Remove httpd
+      yum:
+        name: httpd
+        state: absent
+      become: true
+    
+    - name: Remove index.html
+      file:
+        path: /var/www/html/index.html
+        state: absent
+      become: true
+    
+    - name: firewalld configuration
+      firewalld:
+        zone: public
+        service: "{{ item }}"
+        permanent: yes
+        immediate: yes
+        state: disabled
+      loop:
+        - https
+        - http
+...
