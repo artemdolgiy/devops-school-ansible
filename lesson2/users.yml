@@ -1,0 +1,16 @@
+users:
+  user1:
+    username: alice
+    homedir: /home/alice
+    comment: alice@example.com
+    password: alice_password
+  user2:
+    username: bob
+    homedir: /home/bob
+    comment: bob@example.com
+    password: bob_password
+  user3:
+    username: carol
+    homedir: /home/carol
+    comment: carol@example.com
+    password: carol_password
