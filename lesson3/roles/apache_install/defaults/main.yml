@@ -1,0 +1,5 @@
+---
+# defaults file for apache_install
+
+page_title: My Test HTML Page
+page_description: This is my Test HTML Page created by Ansible.

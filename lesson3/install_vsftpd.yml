@@ -1,0 +1,9 @@
+---
+- name: Install VSFTP
+  hosts: nodes
+  become: true
+
+  roles:
+    - install_vsftpd
+
+...

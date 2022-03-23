@@ -1,0 +1,8 @@
+---
+- name: Install Web-server
+  hosts: nodes
+  become: true
+
+  roles:
+    - apache_install
+...

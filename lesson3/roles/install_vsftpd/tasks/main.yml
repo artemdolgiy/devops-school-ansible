@@ -1,0 +1,44 @@
+---
+# tasks file for install_vsftpd
+- name: Install vsftpd
+  yum:
+    name: "{{ service }}"
+    state: latest
+
+- name: Create /var/ftp/pub/upload/ for anonymous upload
+  file:
+    path: /var/ftp/pub/upload/
+    state: directory
+    mode: 0700
+    owner: "ftp"
+    group: "ftp"
+    setype: "public_content_rw_t"
+    seuser: "system_u"
+
+- name: Set ftpd_anon_write flag on and keep it persistent across reboots
+  ansible.posix.seboolean:
+    name: ftpd_anon_write
+    state: yes
+    persistent: yes
+
+- name: Create config
+  template:
+    src: "{{ service }}.conf.j2"
+    dest: "/etc/{{ service }}/{{ service }}.conf"
+    mode: '0644'
+  notify:
+    - restart vsftpd
+
+- name: firewalld configuration
+  firewalld:
+    zone: public
+    service: ftp
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Start service vsftpd
+  service:
+    name: "{{ service }}"
+    state: started
+    enabled: yes
