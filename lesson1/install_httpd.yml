@@ -1,6 +1,6 @@
 ---
 - name: Install Web-server
-  hosts: nodes
+  hosts: all
   become: true
   tasks:
     - name: Install httpd

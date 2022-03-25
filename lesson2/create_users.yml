@@ -1,6 +1,6 @@
 ---
 - name: Create users
-  hosts: nodes
+  hosts: all
   become: true
   vars_files:
     - users.yml
